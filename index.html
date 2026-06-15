@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Straightfrast | Premium Gadget Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">Straight<span>frast</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#" onclick="toggleAccount()">Account</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Your Ultimate Gadget Destination</h1>
+            <p>Discover premium gadgets at the best prices. Fast nationwide delivery!</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <section id="products" class="products-section">
+        <h2>Our Featured Products</h2>
+        <div class="product-grid" id="product-container">
+            </div>
+    </section>
+
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <span class="close-btn" onclick="toggleCart()">&times;</span>
+            <h3>Your Shopping Cart</h3>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <strong>Total: ৳<span id="cart-total-price">0</span></strong>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Place Order</button>
+        </div>
+    </div><div id="account-modal" class="account-modal">
+        <div class="account-content">
+            <span class="close-btn" onclick="toggleAccount()">&times;</span>
+            
+            <div id="login-form">
+                <h3>Login to Straightfrast</h3>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="login-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="login-password" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="account-btn">Login</button>
+                </form>
+                <p class="switch-text">New to Straightfrast? <a href="#" onclick="switchForm('signup')">Create an account</a></p>
+            </div>
+
+            <div id="signup-form" style="display: none;">
+                <h3>Create Account</h3>
+                <form onsubmit="handleSignUp(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="signup-email" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" required placeholder="Create a password">
+                    </div>
+                    <button type="submit" class="account-btn">Sign Up</button>
+                </form>
+                <p class="switch-text">Already have an account? <a href="#" onclick="switchForm('login')">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Straightfrast</h3>
+                <p>We deliver genuine gadgets with reliability and speed. Customer satisfaction is our top priority.</p>
+            </div>
+            <div class="footer-socials">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="https://facebook.com/isajidurrahman" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://youtube.com/@isajidurrahman" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://instagram.com/isajidurrahman" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Straightfrast. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

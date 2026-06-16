@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Straightfrast | Premium Gadget Store</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- Header Section -->
     <header>
         <div class="navbar">
             <div class="logo">Straight<span>frast</span></div>
@@ -27,6 +29,7 @@
         </div>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>Your Ultimate Gadget Destination</h1>
@@ -35,12 +38,15 @@
         </div>
     </section>
 
+    <!-- Products Section -->
     <section id="products" class="products-section">
         <h2>Our Featured Products</h2>
         <div class="product-grid" id="product-container">
-            </div>
+            <!-- Products will be dynamically loaded via Javascript -->
+        </div>
     </section>
 
+    <!-- Shopping Cart Modal -->
     <div id="cart-modal" class="cart-modal">
         <div class="cart-content">
             <span class="close-btn" onclick="toggleCart()">&times;</span>
@@ -49,14 +55,42 @@
             <div class="cart-total">
                 <strong>Total: ৳<span id="cart-total-price">0</span></strong>
             </div>
-            <button class="checkout-btn" onclick="checkout()">Place Order</button>
+            <button class="checkout-btn" onclick="openCheckoutForm()">Place Order</button>
         </div>
     </div>
 
+    <!-- New Checkout Details Modal (Address & Phone) -->
+    <div id="checkout-modal" class="checkout-modal">
+        <div class="checkout-form-content">
+            <span class="close-btn" onclick="toggleCheckoutModal()">&times;</span>
+            <h3>Delivery & Contact Details</h3>
+            <form id="order-form" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" id="order-phone" required placeholder="e.g., 017XXXXXXXX">
+                </div>
+                <div class="form-group">
+                    <label>Full Delivery Address</label>
+                    <textarea id="order-address" required placeholder="Enter your full home address, city" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Select Order Notification Type</label>
+                    <select id="notification-type">
+                        <option value="whatsapp">Send via WhatsApp</option>
+                        <option value="email">Send via Email (Formspree)</option>
+                    </select>
+                </div>
+                <button type="submit" class="confirm-order-btn">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Account Modal (Login / Sign Up) -->
     <div id="account-modal" class="account-modal">
         <div class="account-content">
             <span class="close-btn" onclick="toggleAccount()">&times;</span>
             
+            <!-- Login Form -->
             <div id="login-form">
                 <h3>Login to Straightfrast</h3>
                 <form onsubmit="handleLogin(event)">
@@ -73,6 +107,7 @@
                 <p class="switch-text">New to Straightfrast? <a href="#" onclick="switchForm('signup')">Create an account</a></p>
             </div>
 
+            <!-- Sign Up Form -->
             <div id="signup-form" style="display: none;">
                 <h3>Create Account</h3>
                 <form onsubmit="handleSignUp(event)">
@@ -95,6 +130,7 @@
         </div>
     </div>
 
+    <!-- Footer Section -->
     <footer id="contact">
         <div class="footer-container">
             <div class="footer-info">

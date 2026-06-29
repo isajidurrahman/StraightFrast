@@ -3,154 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Straightfrast | Premium Gadget Store</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Straightfrast - Premium Clothing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800 font-sans">
 
-    <!-- Header Section -->
-    <header>
-        <div class="navbar">
-            <div class="logo">Straight<span>frast</span></div>
-            <nav>
-                <ul id="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#" onclick="toggleAccount()">Account</a></li>
-                </ul>
-            </nav>
-            <div class="cart-icon" onclick="toggleCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count">0</span>
-            </div>
+    <header class="bg-white shadow-md p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-600 tracking-wider">STRAIGHTFRAST</h1>
+            <div id="auth-status" class="text-sm font-medium"></div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Your Ultimate Gadget Destination</h1>
-            <p>Discover premium gadgets at the best prices. Fast nationwide delivery!</p>
-            <a href="#products" class="btn">Shop Now</a>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="products" class="products-section">
-        <h2>Our Featured Products</h2>
-        <div class="product-grid" id="product-container">
-            <!-- Products will be dynamically loaded via Javascript -->
-        </div>
-    </section>
-
-    <!-- Shopping Cart Modal -->
-    <div id="cart-modal" class="cart-modal">
-        <div class="cart-content">
-            <span class="close-btn" onclick="toggleCart()">&times;</span>
-            <h3>Your Shopping Cart</h3>
-            <div id="cart-items"></div>
-            <div class="cart-total">
-                <strong>Total: ৳<span id="cart-total-price">0</span></strong>
-            </div>
-            <button class="checkout-btn" onclick="openCheckoutForm()">Place Order</button>
-        </div>
-    </div>
-
-    <!-- New Checkout Details Modal (Address & Phone) -->
-    <div id="checkout-modal" class="checkout-modal">
-        <div class="checkout-form-content">
-            <span class="close-btn" onclick="toggleCheckoutModal()">&times;</span>
-            <h3>Delivery & Contact Details</h3>
-            <form id="order-form" onsubmit="submitOrder(event)">
-                <div class="form-group">
-                    <label>Mobile Number</label>
-                    <input type="tel" id="order-phone" required placeholder="e.g., 017XXXXXXXX">
-                </div>
-                <div class="form-group">
-                    <label>Full Delivery Address</label>
-                    <textarea id="order-address" required placeholder="Enter your full home address, city" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Select Order Notification Type</label>
-                    <select id="notification-type">
-                        <option value="whatsapp">Send via WhatsApp</option>
-                        <option value="email">Send via Email (Formspree)</option>
-                    </select>
-                </div>
-                <button type="submit" class="confirm-order-btn">Confirm Order</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Account Modal (Login / Sign Up) -->
-    <div id="account-modal" class="account-modal">
-        <div class="account-content">
-            <span class="close-btn" onclick="toggleAccount()">&times;</span>
+    <main class="container mx-auto my-8 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-1">
+            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Customer Account</h2>
             
-            <!-- Login Form -->
-            <div id="login-form">
-                <h3>Login to Straightfrast</h3>
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" id="login-email" required placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="login-password" required placeholder="Enter your password">
-                    </div>
-                    <button type="submit" class="account-btn">Login</button>
-                </form>
-                <p class="switch-text">New to Straightfrast? <a href="#" onclick="switchForm('signup')">Create an account</a></p>
+            <div id="auth-form-container">
+                <input type="email" id="auth-email" placeholder="Email" class="w-full p-2 border rounded mb-2">
+                <input type="password" id="auth-password" placeholder="Password" class="w-full p-2 border rounded mb-4">
+                <button onclick="signUp()" class="w-full bg-indigo-600 text-white p-2 rounded mb-2 hover:bg-indigo-700">Sign Up</button>
+                <button onclick="logIn()" class="w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300">Log In</button>
             </div>
 
-            <!-- Sign Up Form -->
-            <div id="signup-form" style="display: none;">
-                <h3>Create Account</h3>
-                <form onsubmit="handleSignUp(event)">
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="signup-name" required placeholder="Enter your name">
+            <div id="profile-container" class="hidden">
+                <div class="flex items-center space-x-4 mb-4">
+                    <img id="profile-pic-preview" src="https://via.placeholder.com/80" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-500">
+                    <div>
+                        <p class="font-bold text-lg" id="welcome-user">Welcome!</p>
+                        <button onclick="logOut()" class="text-red-500 text-sm underline">Log Out</button>
                     </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" id="signup-email" required placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" id="signup-password" required placeholder="Create a password">
-                    </div>
-                    <button type="submit" class="account-btn">Sign Up</button>
-                </form>
-                <p class="switch-text">Already have an account? <a href="#" onclick="switchForm('login')">Login here</a></p>
-            </div>
-        </div>
-    </div>
+                </div>
 
-    <!-- Footer Section -->
-    <footer id="contact">
-        <div class="footer-container">
-            <div class="footer-info">
-                <h3>Straightfrast</h3>
-                <p>We deliver genuine gadgets with reliability and speed. Customer satisfaction is our top priority.</p>
-            </div>
-            <div class="footer-socials">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="https://facebook.com/isajidurrahman" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://youtube.com/@isajidurrahman" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
-                    <a href="https://instagram.com/isajidurrahman" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-500">Profile Picture</label>
+                        <input type="file" id="profile-pic-input" class="w-full text-sm">
+                    </div>
+                    <input type="text" id="user-name" placeholder="Full Name" class="w-full p-2 border rounded">
+                    <input type="text" id="user-phone" placeholder="Mobile Number" class="w-full p-2 border rounded">
+                    <textarea id="user-address" placeholder="Default Delivery Address" class="w-full p-2 border rounded h-20"></textarea>
+                    <button onclick="saveProfile()" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">Save Profile</button>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Straightfrast. All Rights Reserved.</p>
-        </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white p-6 rounded-lg shadow-md flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="w-20 h-20 bg-gray-200 rounded flex items-center justify-center text-xs font-bold">CLOTHING</div>
+                    <div>
+                        <h3 class="text-lg font-bold">Premium Minimalist T-Shirt</h3>
+                        <p class="text-gray-500">$25.00</p>
+                    </div>
+                </div>
+                <span class="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-bold">1x Item in Cart</span>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4 border-b pb-2">Delivery & Order Details</h2>
+                <form id="order-form" onsubmit="placeOrder(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600">Customer Name</label>
+                            <input type="text" id="checkout-name" required class="w-full p-2 border rounded bg-gray-50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600">Mobile Number</label>
+                            <input type="text" id="checkout-phone" required class="w-full p-2 border rounded bg-gray-50">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Email Address</label>
+                        <input type="email" id="checkout-email" required class="w-full p-2 border rounded bg-gray-50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600">Delivery Address</label>
+                        <textarea id="checkout-address" required class="w-full p-2 border rounded bg-gray-50 h-24"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-indigo-700 transition">Place Order Now</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="app.js"></script>
 </body>
 </html>

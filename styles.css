@@ -1,0 +1,67 @@
+/* Import Premium Font for Clothing Brand */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg-light: #f9fafb;
+    --text-dark: #1f2937;
+}
+
+/* Apply Premium Typography */
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    scroll-behavior: smooth;
+}
+
+/* Smooth Transitions for Inputs */
+input, textarea {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Interactive Input Focus Effects */
+input:focus, textarea:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15) !important;
+    outline: none;
+    background-color: #ffffff !important;
+}
+
+/* Modern Elegant Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #4f46e5;
+}
+
+/* Dynamic Hover Effects for Buttons */
+button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Profile Image Hover Effect */
+#profile-pic-preview {
+    transition: transform 0.3s ease;
+}
+#profile-pic-preview:hover {
+    transform: scale(1.05);
+}

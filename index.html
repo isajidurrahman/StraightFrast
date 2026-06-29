@@ -4,96 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Straightfrast - Premium Clothing</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body>
 
-    <header class="bg-white shadow-md p-4 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-600 tracking-wider">STRAIGHTFRAST</h1>
-            <div id="auth-status" class="text-sm font-medium"></div>
-        </div>
+    <header>
+        <div class="logo">Straightfrast</div>
+        <nav>
+            <a href="#shop">Shop</a>
+            <a href="#cart">Cart (<span id="cart-count">0</span>)</a>
+            <a href="#profile" id="nav-profile">Account</a>
+        </nav>
     </header>
 
-    <main class="container mx-auto my-8 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <div class="bg-white p-6 rounded-lg shadow-md lg:col-span-1">
-            <h2 class="text-xl font-semibold mb-4 border-b pb-2">Customer Account</h2>
+    <main>
+        <section id="profile-section" class="card">
+            <div id="auth-container">
+                <h2>Login / Sign Up</h2>
+                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="password" id="auth-password" placeholder="Password" required>
+                <button id="btn-login">Login</button>
+                <button id="btn-signup" class="btn-secondary">Sign Up</button>
+            </div>
+
+            <div id="user-profile" class="hidden">
+                <h2>Your Profile</h2>
+                <div class="profile-header">
+                    <img id="profile-pic-view" src="https://via.placeholder.com/150" alt="Profile Picture">
+                    <input type="file" id="profile-pic-input" accept="image/*">
+                </div>
+                <div class="profile-details">
+                    <input type="text" id="user-name" placeholder="Full Name">
+                    <input type="text" id="user-phone" placeholder="Phone Number">
+                    <textarea id="user-address" placeholder="Delivery Address"></textarea>
+                    <button id="btn-save-profile">Save Profile Info</button>
+                    <button id="btn-logout" class="btn-secondary">Logout</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="shop">
+            <h2>Our Collection</h2>
+            <div id="product-grid" class="grid"></div>
+        </section>
+
+        <section id="cart" class="card">
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">Total: $<span id="cart-total-price">0</span></div>
             
-            <div id="auth-form-container">
-                <input type="email" id="auth-email" placeholder="Email" class="w-full p-2 border rounded mb-2">
-                <input type="password" id="auth-password" placeholder="Password" class="w-full p-2 border rounded mb-4">
-                <button onclick="signUp()" class="w-full bg-indigo-600 text-white p-2 rounded mb-2 hover:bg-indigo-700">Sign Up</button>
-                <button onclick="logIn()" class="w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300">Log In</button>
-            </div>
-
-            <div id="profile-container" class="hidden">
-                <div class="flex items-center space-x-4 mb-4">
-                    <img id="profile-pic-preview" src="https://via.placeholder.com/80" class="w-20 h-20 rounded-full object-cover border-2 border-indigo-500">
-                    <div>
-                        <p class="font-bold text-lg" id="welcome-user">Welcome!</p>
-                        <button onclick="logOut()" class="text-red-500 text-sm underline">Log Out</button>
-                    </div>
-                </div>
-
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-500">Profile Picture</label>
-                        <input type="file" id="profile-pic-input" class="w-full text-sm">
-                    </div>
-                    <input type="text" id="user-name" placeholder="Full Name" class="w-full p-2 border rounded">
-                    <input type="text" id="user-phone" placeholder="Mobile Number" class="w-full p-2 border rounded">
-                    <textarea id="user-address" placeholder="Default Delivery Address" class="w-full p-2 border rounded h-20"></textarea>
-                    <button onclick="saveProfile()" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">Save Profile</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="lg:col-span-2 space-y-8">
-            <div class="bg-white p-6 rounded-lg shadow-md flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <div class="w-20 h-20 bg-gray-200 rounded flex items-center justify-center text-xs font-bold">CLOTHING</div>
-                    <div>
-                        <h3 class="text-lg font-bold">Premium Minimalist T-Shirt</h3>
-                        <p class="text-gray-500">$25.00</p>
-                    </div>
-                </div>
-                <span class="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-bold">1x Item in Cart</span>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-4 border-b pb-2">Delivery & Order Details</h2>
-                <form id="order-form" onsubmit="placeOrder(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600">Customer Name</label>
-                            <input type="text" id="checkout-name" required class="w-full p-2 border rounded bg-gray-50">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600">Mobile Number</label>
-                            <input type="text" id="checkout-phone" required class="w-full p-2 border rounded bg-gray-50">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Email Address</label>
-                        <input type="email" id="checkout-email" required class="w-full p-2 border rounded bg-gray-50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600">Delivery Address</label>
-                        <textarea id="checkout-address" required class="w-full p-2 border rounded bg-gray-50 h-24"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white p-3 rounded-lg font-bold text-lg hover:bg-indigo-700 transition">Place Order Now</button>
-                </form>
-            </div>
-        </div>
-
+            <hr>
+            
+            <h3>Checkout & Delivery Details</h3>
+            <form id="checkout-form">
+                <input type="text" id="checkout-name" placeholder="Receiver's Name" required>
+                <input type="email" id="checkout-email" placeholder="Email Address" required>
+                <input type="text" id="checkout-phone" placeholder="Phone Number" required>
+                <textarea id="checkout-address" placeholder="Shipping Address" required></textarea>
+                <button type="submit" id="btn-place-order">Place Order</button>
+            </form>
+        </section>
     </main>
 
-    <script src="app.js"></script>
+    <footer>
+        <p>&copy; 2026 Straightfrast. All Rights Reserved.</p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
 </body>
 </html>
